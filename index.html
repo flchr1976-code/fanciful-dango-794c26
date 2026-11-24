@@ -1,0 +1,915 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="default">
+<meta name="apple-mobile-web-app-title" content="Ritmo27">
+<meta name="theme-color" content="#F5F3EE">
+<title>Ritmo27</title>
+<link rel="apple-touch-icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 180 180'%3E%3Crect width='180' height='180' rx='40' fill='%2315171C'/%3E%3Cpath d='M30 100h30l12-30 18 50 14-34h46' fill='none' stroke='%23FB923C' stroke-width='12' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E">
+<style>
+:root{--bg:#F5F3EE;--card:#FFFFFF;--ink:#15171C;--mute:#5B5F68;--line:#ECEAE4;--or:#C2410C;--orl:#FB923C;--bl:#1D4ED8;--gr:#3F8F5A;--te:#0F766E;--pu:#6D28D9;--nv:#312E81;--am:#B45309;--rd:#9A3412;--gold:#9A6A0E}
+*{box-sizing:border-box}
+html,body{margin:0;background:var(--bg);color:var(--ink);font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Helvetica,Arial,sans-serif;-webkit-text-size-adjust:100%}
+body{padding-bottom:calc(78px + env(safe-area-inset-bottom))}
+button,input,select,textarea{font:inherit;color:inherit}
+button{cursor:pointer}
+.wrap{max-width:720px;margin:0 auto;padding:calc(12px + env(safe-area-inset-top)) 16px 24px}
+.top{display:flex;justify-content:space-between;align-items:center;gap:8px;margin-bottom:12px}
+.brand{font-weight:800;font-size:20px;letter-spacing:-.3px}
+.brand span{color:var(--or)}
+.kick{font-size:12px;font-weight:700;letter-spacing:1.5px;color:var(--mute);text-transform:uppercase}
+h1{margin:2px 0 0;font-size:28px;line-height:1.1;letter-spacing:-.5px}
+h2{margin:0;font-size:18px}
+.card{background:var(--card);border-radius:16px;padding:14px;margin:0 0 12px}
+.dark{background:var(--ink);color:#fff}
+.row{display:flex;gap:10px;align-items:center}
+.col{display:flex;flex-direction:column;gap:8px}
+.grid2{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:10px}
+.grid3{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:8px}
+.mute{color:var(--mute)}
+.small{font-size:12px}
+.big{font-size:30px;font-weight:800;line-height:1;letter-spacing:-.5px}
+.chip{display:inline-flex;align-items:center;justify-content:center;min-width:44px;height:44px;padding:0 8px;border-radius:12px;font-weight:800;font-size:16px}
+.btn{border:0;border-radius:12px;padding:12px 14px;min-height:44px;font-weight:700;background:var(--ink);color:#fff}
+.btn.sec{background:#fff;color:var(--ink);border:2px solid var(--ink)}
+.btn.or{background:var(--or)}
+.btn.ghost{background:transparent;color:var(--ink);border:0;padding:8px}
+.btn.full{width:100%}
+.nav{position:fixed;left:0;right:0;bottom:0;background:#fff;border-top:1px solid var(--line);padding:6px 6px calc(6px + env(safe-area-inset-bottom));display:flex;justify-content:center;z-index:5}
+.nav .in{max-width:720px;width:100%;display:grid;grid-template-columns:repeat(5,1fr)}
+.nav button{background:none;border:0;display:flex;flex-direction:column;align-items:center;gap:2px;font-size:11px;font-weight:700;color:var(--mute);min-height:52px;justify-content:center}
+.nav button.on{color:var(--or)}
+.nav button.plus .ic{background:var(--or);color:#fff;border-radius:14px;width:44px;height:30px;display:flex;align-items:center;justify-content:center}
+.strip{position:relative;height:16px;background:var(--line);border-radius:4px}
+.strip div{position:absolute;top:0;height:16px;border-radius:3px}
+.dots{position:relative;height:10px}
+.dots div{position:absolute;top:1px;width:9px;height:9px;border-radius:5px}
+.ticks{position:relative;height:14px;font-size:10px;color:var(--mute)}
+.ticks span{position:absolute;transform:translateX(-50%)}
+.item{display:flex;gap:10px;align-items:stretch}
+.item .t{width:48px;flex:none;font-weight:800;font-size:15px;padding-top:12px;font-variant-numeric:tabular-nums}
+.item .bar{width:4px;flex:none;border-radius:2px}
+.item .box{flex:1;min-width:0;background:#fff;border-radius:12px;padding:10px 12px;display:flex;gap:10px;align-items:center;border:0;text-align:left;width:100%}
+.item .box.dk{background:#23262D;color:#fff}
+.item .box.done{opacity:.45}
+.item .ico{width:36px;height:36px;flex:none;border-radius:10px;display:flex;align-items:center;justify-content:center}
+.badge{font-size:11px;font-weight:800;color:#fff;border-radius:6px;padding:2px 6px;margin-left:6px;white-space:nowrap}
+.tick{width:24px;height:24px;flex:none;border-radius:7px;border:2px solid var(--mute);display:flex;align-items:center;justify-content:center;margin-left:auto}
+.tick.on{background:var(--te);border-color:var(--te)}
+.cal{display:grid;grid-template-columns:repeat(7,minmax(0,1fr));gap:4px}
+.cal .h{font-size:11px;font-weight:700;color:var(--mute);text-align:center}
+.cal button{position:relative;height:60px;border-radius:10px;border:0;display:flex;align-items:center;justify-content:center;font-weight:800;font-size:16px;padding:0}
+.cal button .d{position:absolute;left:5px;top:3px;font-size:10px;font-weight:700;opacity:.85}
+.cal button .g{position:absolute;right:3px;bottom:3px;width:18px;height:18px;border-radius:9px;background:var(--orl);color:var(--ink);font-size:10px;display:flex;align-items:center;justify-content:center}
+.cal button .x{position:absolute;left:4px;bottom:4px;width:7px;height:7px;border-radius:4px;background:var(--pu)}
+.cal button.today{outline:3px solid var(--ink);outline-offset:-3px}
+.modal{position:fixed;inset:0;background:rgba(21,23,28,.55);display:flex;align-items:flex-end;justify-content:center;z-index:10}
+.modal .sheet{background:var(--bg);width:100%;max-width:720px;max-height:88vh;overflow:auto;border-radius:20px 20px 0 0;padding:16px 16px calc(16px + env(safe-area-inset-bottom))}
+@media(min-width:760px){.modal{align-items:center}.modal .sheet{border-radius:20px}}
+table{width:100%;border-collapse:collapse;font-size:13px}
+td,th{padding:6px 4px;border-bottom:1px solid var(--line);text-align:left;vertical-align:top}
+th{font-size:11px;color:var(--mute);letter-spacing:.5px;text-transform:uppercase}
+input[type=text],input[type=password],input[type=date],input[type=number],textarea,select{width:100%;border:2px solid var(--line);border-radius:10px;padding:10px;background:#fff;min-height:44px}
+textarea{min-height:140px;font-family:ui-monospace,Menlo,monospace;font-size:12px}
+.warn{background:#FFF0E8;border:2px solid var(--or);border-radius:14px;padding:12px;font-size:13px;margin-bottom:12px}
+.ok{background:#EEF3FF;border-radius:14px;padding:12px;font-size:13px;margin-bottom:12px}
+.pill{display:inline-block;border-radius:8px;padding:3px 8px;font-size:11px;font-weight:700}
+.seg{display:flex;gap:6px;flex-wrap:wrap}
+.seg button{border:2px solid var(--line);background:#fff;border-radius:10px;padding:8px 10px;font-weight:700;min-height:44px}
+.seg button.on{border-color:var(--ink);background:var(--ink);color:#fff}
+.toast{position:fixed;left:50%;bottom:calc(90px + env(safe-area-inset-bottom));transform:translateX(-50%);background:var(--ink);color:#fff;padding:10px 14px;border-radius:12px;font-size:13px;z-index:20;max-width:90vw}
+.spark{display:block}
+.legend{display:flex;flex-wrap:wrap;gap:10px;font-size:11px;color:var(--mute)}
+.legend i{display:inline-block;width:14px;height:9px;border-radius:2px;margin-right:4px;vertical-align:middle}
+a{color:var(--bl)}
+</style>
+</head>
+<body>
+<div class="wrap" id="app"></div>
+<nav class="nav" aria-label="Menu principale"><div class="in" id="nav"></div></nav>
+<div id="layer"></div>
+
+<script>
+/* ============================================================
+   Ritmo27 · F1 · core (logica pura, testabile senza DOM)
+   ============================================================ */
+const Core = (() => {
+  const TZ = 'Europe/Rome';
+  const VERSION = 'F1 · 1.0.3';
+  const SCHEMA = 1;
+
+  // ---------- date e fuso orario ----------
+  const fmtParts = new Intl.DateTimeFormat('en-CA', { timeZone: TZ, year: 'numeric', month: '2-digit', day: '2-digit', hour: '2-digit', minute: '2-digit', second: '2-digit', hourCycle: 'h23' });
+  function romeParts(ms) {
+    const p = {}; for (const x of fmtParts.formatToParts(new Date(ms))) p[x.type] = x.value;
+    return { y: +p.year, mo: +p.month, d: +p.day, h: +p.hour % 24, mi: +p.minute, s: +p.second, date: `${p.year}-${p.month}-${p.day}` };
+  }
+  function tzOffset(ms) { const p = romeParts(ms); return Date.UTC(p.y, p.mo - 1, p.d, p.h, p.mi, p.s) - Math.floor(ms / 1000) * 1000; }
+  function romeToUTC(y, mo, d, h, mi, s = 0) { // ora di Roma -> istante UTC
+    const guess = Date.UTC(y, mo - 1, d, h, mi, s);
+    let ms = guess - tzOffset(guess);
+    ms = guess - tzOffset(ms);
+    return ms;
+  }
+  const pad = n => String(n).padStart(2, '0');
+  function addDays(ds, n) { const [y, m, d] = ds.split('-').map(Number); return new Date(Date.UTC(y, m - 1, d + n)).toISOString().slice(0, 10); }
+  function dow(ds) { const [y, m, d] = ds.split('-').map(Number); return (new Date(Date.UTC(y, m - 1, d)).getUTCDay() + 6) % 7; } // 0 = lunedì
+  function mondayOf(ds) { return addDays(ds, -dow(ds)); }
+  function diffDays(a, b) { const t = s => { const [y, m, d] = s.split('-').map(Number); return Date.UTC(y, m - 1, d); }; return Math.round((t(b) - t(a)) / 864e5); }
+  function todayRome(now = Date.now()) { return romeParts(now).date; }
+  function nowMinRome(now = Date.now()) { const p = romeParts(now); return p.h * 60 + p.mi; }
+  function hhmm(min) { min = Math.round(min); const m = ((min % 1440) + 1440) % 1440; return pad(Math.floor(m / 60)) + ':' + pad(m % 60); }
+  const WD = ['Lun', 'Mar', 'Mer', 'Gio', 'Ven', 'Sab', 'Dom'];
+  const WDL = ['lunedì', 'martedì', 'mercoledì', 'giovedì', 'venerdì', 'sabato', 'domenica'];
+  const MESI = ['gennaio', 'febbraio', 'marzo', 'aprile', 'maggio', 'giugno', 'luglio', 'agosto', 'settembre', 'ottobre', 'novembre', 'dicembre'];
+  function dateLabel(ds) { const [y, m, d] = ds.split('-').map(Number); return `${WDL[dow(ds)]} ${d} ${MESI[m - 1]}`; }
+
+  // ---------- festività italiane ----------
+  function easter(y) { const a = y % 19, b = Math.floor(y / 100), c = y % 100, d = Math.floor(b / 4), e = b % 4, f = Math.floor((b + 8) / 25), g = Math.floor((b - f + 1) / 3), h = (19 * a + b - d - g + 15) % 30, i = Math.floor(c / 4), k = c % 4, l = (32 + 2 * e + 2 * i - h - k) % 7, m = Math.floor((a + 11 * h + 22 * l) / 451), mo = Math.floor((h + l - 7 * m + 114) / 31), da = ((h + l - 7 * m + 114) % 31) + 1; return `${y}-${pad(mo)}-${pad(da)}`; }
+  function holidays(y) {
+    const e = easter(y);
+    return { [`${y}-01-01`]: 'Capodanno', [`${y}-01-06`]: 'Epifania', [e]: 'Pasqua', [addDays(e, 1)]: 'Pasquetta', [`${y}-04-25`]: 'Liberazione', [`${y}-05-01`]: 'Festa del lavoro', [`${y}-06-02`]: 'Festa della Repubblica', [`${y}-08-15`]: 'Ferragosto', [`${y}-11-01`]: 'Ognissanti', [`${y}-12-08`]: 'Immacolata', [`${y}-12-24`]: 'Vigilia di Natale', [`${y}-12-25`]: 'Natale', [`${y}-12-26`]: 'Santo Stefano', [`${y}-12-31`]: 'San Silvestro' };
+  }
+  const holCache = {};
+  function holidayOf(ds) { const y = +ds.slice(0, 4); if (!holCache[y]) holCache[y] = holidays(y); return holCache[y][ds] || null; }
+
+  // ---------- ICS ----------
+  function parseICSDate(val, params) {
+    if (/^\d{8}$/.test(val)) return { allDay: true };
+    const m = val.match(/^(\d{4})(\d{2})(\d{2})T(\d{2})(\d{2})(\d{2})?(Z)?$/);
+    if (!m) return { error: 'data non leggibile: ' + val };
+    const [_, y, mo, d, h, mi, s, z] = m;
+    if (z) return { ms: Date.UTC(+y, +mo - 1, +d, +h, +mi, +(s || 0)) };
+    const tz = params.TZID;
+    const warn = tz && tz !== TZ ? `fuso ${tz} trattato come ${TZ}` : null;
+    return { ms: romeToUTC(+y, +mo, +d, +h, +mi, +(s || 0)), warn };
+  }
+  function parseICS(text) {
+    const lines = text.replace(/\r\n/g, '\n').replace(/\n[ \t]/g, '').split('\n');
+    const events = []; let cur = null; const warnings = [];
+    for (const raw of lines) {
+      if (raw === 'BEGIN:VEVENT') { cur = { props: {} }; continue; }
+      if (raw === 'END:VEVENT') { if (cur) events.push(cur); cur = null; continue; }
+      if (!cur) continue;
+      const i = raw.indexOf(':'); if (i < 0) continue;
+      const left = raw.slice(0, i), value = raw.slice(i + 1);
+      const [name, ...ps] = left.split(';');
+      const params = {}; for (const p of ps) { const [k, v] = p.split('='); params[k.toUpperCase()] = v; }
+      const key = name.toUpperCase();
+      if (key === 'EXDATE') { (cur.props.EXDATE = cur.props.EXDATE || []).push(...value.split(',').map(v => ({ value: v, params }))); }
+      else cur.props[key] = { value, params };
+    }
+    const occ = [];
+    events.forEach((ev, idx) => {
+      const P = ev.props; const label = (P.SUMMARY && P.SUMMARY.value) || `evento ${idx + 1}`;
+      if (!P.DTSTART) { warnings.push(`"${label}": manca l'inizio, scartato`); return; }
+      const st = parseICSDate(P.DTSTART.value, P.DTSTART.params);
+      if (st.allDay) { warnings.push(`"${label}": evento di giornata intera, scartato`); return; }
+      if (st.error) { warnings.push(`"${label}": ${st.error}`); return; }
+      if (st.warn) warnings.push(`"${label}": ${st.warn}`);
+      let durMs = 8 * 3600e3;
+      if (P.DTEND) { const en = parseICSDate(P.DTEND.value, P.DTEND.params); if (en.ms) durMs = en.ms - st.ms; }
+      else if (P.DURATION) { const m = P.DURATION.value.match(/PT(?:(\d+)H)?(?:(\d+)M)?/); if (m) durMs = ((+m[1] || 0) * 60 + (+m[2] || 0)) * 60e3; }
+      const ex = new Set((P.EXDATE || []).map(x => { const r = parseICSDate(x.value, x.params); return r.ms ? romeParts(r.ms).date : null; }));
+      const sp = romeParts(st.ms);
+      let dates = [sp.date];
+      if (P.RRULE) {
+        const r = {}; P.RRULE.value.split(';').forEach(kv => { const [k, v] = kv.split('='); r[k] = v; });
+        const step = r.FREQ === 'DAILY' ? 1 : r.FREQ === 'WEEKLY' ? 7 : 0;
+        if (!step) { warnings.push(`"${label}": ripetizione ${r.FREQ} non gestita, preso solo il primo giorno`); }
+        else {
+          if (r.BYDAY) warnings.push(`"${label}": BYDAY ignorato`);
+          const interval = +(r.INTERVAL || 1) * step;
+          let until = null; if (r.UNTIL) { const u = parseICSDate(r.UNTIL, {}); until = u.ms ? romeParts(u.ms).date : null; }
+          const count = r.COUNT ? +r.COUNT : null;
+          if (!count && !until) warnings.push(`"${label}": ripetizione senza fine, limitata a 366 giorni`);
+          dates = []; let d = sp.date, n = 0;
+          while (n < (count || 9999)) { if (until && d > until) break; if (diffDays(sp.date, d) > 366) break; dates.push(d); n++; d = addDays(d, interval); }
+        }
+      }
+      for (const d of dates) {
+        if (ex.has(d)) continue;
+        const [y, mo, da] = d.split('-').map(Number);
+        const s = romeToUTC(y, mo, da, sp.h, sp.mi, 0);
+        occ.push({ date: d, startMin: sp.h * 60 + sp.mi, durMin: Math.round(durMs / 60e3), startMs: s, summary: label });
+      }
+    });
+    return { occ, warnings, events: events.length };
+  }
+  function classify(startMin) {
+    const cands = [[420, '07'], [900, '15'], [1020, '17'], [1380, 'N']];
+    let best = null; for (const [m, t] of cands) { const dd = Math.abs(startMin - m); if (dd <= 60 && (!best || dd < best.dd)) best = { t, dd }; }
+    return best ? best.t : 'X';
+  }
+  function shiftsFromICS(text, filename = '') {
+    const p = parseICS(text);
+    const shifts = []; const warnings = [...p.warnings]; const seen = new Map(); const skipped = [];
+    for (const o of p.occ) {
+      // un turno dura tra 6 e 11 ore: tutto il resto (promemoria, appuntamenti) non è un turno e non viene salvato
+      if (o.durMin < 360 || o.durMin > 660) { skipped.push({ date: o.date, start: hhmm(o.startMin), dur: Math.round(o.durMin / 6) / 10, summary: o.summary }); continue; }
+      const type = classify(o.startMin);
+      if (type === 'X') warnings.push(`${o.date}: orario ${hhmm(o.startMin)} non riconosciuto (né 07, 15, 17, 23)`);
+      if (seen.has(o.date)) { warnings.push(`${o.date}: due turni nello stesso giorno, tengo il primo`); continue; }
+      const s = { date: o.date, type, start: hhmm(o.startMin), end: hhmm(o.startMin + o.durMin), startMin: o.startMin, durMin: o.durMin, summary: o.summary };
+      seen.set(o.date, s); shifts.push(s);
+    }
+    shifts.sort((a, b) => a.date < b.date ? -1 : 1);
+    let from = shifts.length ? shifts[0].date : null, to = shifts.length ? shifts[shifts.length - 1].date : null, rangeSource = 'primo e ultimo turno del file';
+    const m = filename.match(/(\d{4}-\d{2}-\d{2})_(\d{4}-\d{2}-\d{2})/);
+    if (m && m[1] <= m[2]) { from = m[1]; to = m[2]; rangeSource = 'nome del file'; }
+    return { shifts, from, to, rangeSource, warnings, skipped, events: p.events };
+  }
+  function diffShifts(oldList, newList, from, to) {
+    const o = new Map(oldList.filter(s => s.date >= from && s.date <= to).map(s => [s.date, s]));
+    const n = new Map(newList.map(s => [s.date, s]));
+    const added = [], removed = [], changed = [];
+    for (const [d, s] of n) { if (!o.has(d)) added.push(s); else if (o.get(d).type !== s.type || o.get(d).start !== s.start) changed.push({ from: o.get(d), to: s }); }
+    for (const [d, s] of o) if (!n.has(d)) removed.push(s);
+    return { added, removed, changed };
+  }
+
+  // ---------- tipo di giorno ----------
+  function makeResolver(shiftMap, excMap) {
+    function raw(ds) {
+      const e = excMap.get(ds);
+      if (e && e.kind === 'ferie') return 'R';
+      if (e && e.kind === 'cambio' && e.type) return e.type;
+      const s = shiftMap.get(ds); return s ? s.type : 'R';
+    }
+    function type(ds) {
+      const t = raw(ds), p = raw(addDays(ds, -1));
+      if (t === 'R' && p === 'N') return 'S';
+      if (t === 'N') return p === 'N' ? 'N2' : 'N1';
+      return t;
+    }
+    return { raw, type };
+  }
+  const TYPE_INFO = {
+    '07': { lab: '07', name: 'Turno 07–15', bg: '#B45309', fg: '#fff' },
+    '15': { lab: '15', name: 'Turno 15–23', bg: '#1D4ED8', fg: '#fff' },
+    '17': { lab: '17', name: 'Turno 17–01', bg: '#4B5060', fg: '#fff' },
+    'N1': { lab: '23', name: 'Notte 23–07 (prima)', bg: '#312E81', fg: '#fff' },
+    'N2': { lab: '23', name: 'Notte 23–07 (tra due notti)', bg: '#312E81', fg: '#fff' },
+    'S': { lab: 'SM', name: 'Smonto', bg: '#C4B5FD', fg: '#1E1B4B' },
+    'R': { lab: 'R', name: 'Riposo', bg: '#FFFFFF', fg: '#0F766E', border: '#0F766E' },
+    'X': { lab: '?', name: 'Turno con orario insolito', bg: '#9A3412', fg: '#fff' }
+  };
+
+  // ---------- moduli e schede ----------
+  const MOD = {
+    COL: { n: 'Colazione', k: 450, p: 32, c: '#15171C', d: '250 g yogurt greco 0–2% · 40 g avena · 150 g frutta · 15 g noci' },
+    P1: { n: 'Pasto grande', k: 600, p: 45, c: '#C2410C', d: '1 palmo di proteine (150 g) · 70 g cereali · 300 g verdure · 10 g olio' },
+    P2: { n: 'Pasto medio', k: 550, p: 44, c: '#1D4ED8', d: '1 palmo di proteine (150 g) · 50 g cereali · 300 g verdure · 10 g olio' },
+    SP: { n: 'Spuntino proteico', k: 200, p: 22, c: '#3F8F5A', d: '170 g yogurt greco + 10 g miele, o 150 g fiocchi di latte + 1 frutto' },
+    SPm: { n: 'Mezza SP', k: 100, p: 11, c: '#3F8F5A', d: 'mezzo yogurt + un po\' di frutta, poi niente' },
+    SL: { n: 'Spuntino leggero', k: 150, p: 4, c: '#6B7280', d: '1 frutto + 15 g mandorle' },
+    PZ: { n: 'Piacere', k: 200, p: 3, c: '#9A6A0E', d: '~200 kcal (max 320) · cioccolato e vino meglio a pranzo' }
+  };
+  const GYM = {
+    A: ['Bike 5\' liv. 5–6', 'Leg press 3×10', 'Chest press 3×10', 'Low row 3×10', 'Plank 2×30"'],
+    B: ['Bike 5\' liv. 5–6', 'Leg press 3×12', 'Vertical traction 3×10', 'Shoulder press 2×10', 'Chest press 2×10'],
+    "15'": ['Leg press 2 serie', 'Chest press 2 serie', 'Low row 2 serie', '60" di pausa, uno dopo l\'altro']
+  };
+  const GYM_RULE = '2 ripetizioni di riserva · 90" di pausa · espira mentre spingi, mai trattenere il fiato';
+
+  // ---------- palestra: scelta dei giorni ----------
+  function gymSchedule(resolver, rampStart, horizonEnd) {
+    const out = {}; if (!rampStart || !horizonEnd || horizonEnd < rampStart) return out;
+    const score = { R: 3, '15': 2, '17': 2, '07': 1 };
+    const closed = d => { const h = holidayOf(d); return h && ['Capodanno', 'Epifania', 'Pasqua', 'Pasquetta', 'Vigilia di Natale', 'Natale', 'Santo Stefano', 'San Silvestro', 'Ferragosto'].includes(h); };
+    function elig(d) {
+      if (d < rampStart) return false;
+      const t = resolver.type(d); if (!(t in score)) return false;
+      if (closed(d)) return false;
+      if (t === '07') { const p = resolver.raw(addDays(d, -1)); if (p === '15' || p === '17') return false; }
+      return true;
+    }
+    const w0 = mondayOf(rampStart); let last = null, ab = 0;
+    for (let wk = w0, wi = 0; wk <= horizonEnd; wk = addDays(wk, 7), wi++) {
+      const target = wi === 0 ? 0 : wi === 1 ? 1 : 2; if (!target) continue;
+      const days = []; for (let i = 0; i < 7; i++) { const d = addDays(wk, i); if (d <= horizonEnd && elig(d)) days.push(d); }
+      let best = null;
+      const consider = combo => {
+        if (last && diffDays(last, combo[0]) < 2) return;
+        for (let i = 1; i < combo.length; i++) if (diffDays(combo[i - 1], combo[i]) < 2) return;
+        let s = combo.reduce((a, d) => a + score[resolver.type(d)], 0) * 10;
+        if (combo.length > 1) s -= Math.abs(diffDays(combo[0], combo[1]) - 3) * 2;
+        if (!best || s > best.s) best = { s, combo };
+      };
+      const k = Math.min(target, days.length);
+      if (k === 1) days.forEach(d => consider([d]));
+      if (k === 2) for (let i = 0; i < days.length; i++) for (let j = i + 1; j < days.length; j++) consider([days[i], days[j]]);
+      if (!best && target === 2) days.forEach(d => consider([d]));
+      if (best) for (const d of best.combo) { out[d] = wi === 1 ? "15'" : (ab++ % 2 === 0 ? 'A' : 'B'); last = d; }
+    }
+    return out;
+  }
+
+  // ---------- piano del giorno ----------
+  function planDay(ds, resolver, gymMap, settings, shiftMap) {
+    const type = resolver.type(ds), prev = resolver.raw(addDays(ds, -1)), next = resolver.raw(addDays(ds, 1));
+    const g = gymMap[ds] || null;
+    const it = []; let segs = []; const notes = []; let wake, bed;
+    const add = (t, kind, label, detail, mod) => it.push({ t, kind, label, detail, mod });
+    const meal = (t, mod, detail) => add(t, 'meal', MOD[mod].n, detail || MOD[mod].d, mod);
+    const gymItem = t => { add(t, 'gym', `Palestra ${g}`, GYM[g].join(' · '), null); segs.push([t / 60, t / 60 + 0.6, 'gym']); };
+    switch (type) {
+      case '07':
+        wake = 345; bed = 1335;
+        if (prev === '15' || prev === '17') { bed = 1320; notes.push('Rientro rapido dopo il serale: pisolino di 20 minuti alle 15:30, a letto alle 22:00'); }
+        else if (['15', '17', 'N'].includes(next)) bed = 1380;
+        segs = [[0, wake / 60, 'sleep'], [7, 15, 'work']];
+        add(345, 'wake', 'Sveglia + risveglio metabolico', '4 min: marcia, squat, busto, braccia ×3');
+        add(355, 'dog', 'Cane · uscita breve', '5–10 min');
+        meal(370, 'COL');
+        add(420, 'work', 'Turno 07–15', 'in piedi 60" ogni 30 min · 3–5 pause di respiro 4-2-6');
+        meal(570, 'SP'); meal(750, 'P2', 'contenitore da casa · ' + MOD.P2.d);
+        if (prev === '15' || prev === '17') { add(930, 'nap', 'Pisolino 20 minuti', 'sveglia fissa'); segs.push([15.5, 15.83, 'nap']); }
+        meal(945, 'SL');
+        add(960, 'dog', 'Cane · 30\' a passo svelto', 'riesci a parlare, non a cantare');
+        if (g) gymItem(1020);
+        meal(1170, 'P1', 'i carboidrati vanno qui · ' + MOD.P1.d); meal(1195, 'PZ');
+        add(1210, 'dog', 'Cane · digestiva', '10–15 min dopo cena');
+        break;
+      case '15':
+        wake = 480; bed = next === '07' ? 1425 : 1455;
+        if (next === '07') notes.push('Domani si entra alle 07: a letto subito, entro le 23:45');
+        segs = [[0, 8, 'sleep'], [15, 23, 'work']];
+        add(480, 'wake', 'Sveglia + risveglio metabolico', '4 min'); meal(495, 'COL');
+        add(540, 'dog', 'Cane · col sole, 30\' a passo svelto', 'la luce del mattino rimette l\'orologio');
+        if (g) gymItem(630);
+        meal(750, 'P1'); meal(770, 'PZ'); add(780, 'dog', 'Cane · digestiva', '10–15 min');
+        meal(870, 'SL'); add(900, 'work', 'Turno 15–23', 'in piedi 60" ogni 30 min');
+        meal(1110, 'P2', 'cena al lavoro · ' + MOD.P2.d); meal(1290, 'SP', 'chiude la giornata');
+        add(1400, 'dog', 'Cane · uscita calma', '10 min, telefono in tasca');
+        break;
+      case '17':
+        wake = 570; bed = 1560;
+        segs = prev === '17' ? [[0, 1, 'work'], [2, 9.5, 'sleep'], [17, 24, 'work']] : [[0, 9.5, 'sleep'], [17, 24, 'work']];
+        add(570, 'wake', 'Sveglia + risveglio metabolico', '4 min'); meal(585, 'COL');
+        add(615, 'dog', 'Cane · col sole, 30\' a passo svelto', '');
+        if (g) gymItem(690);
+        meal(780, 'P1'); meal(800, 'PZ'); add(810, 'dog', 'Cane · digestiva', '10–15 min');
+        meal(960, 'SL'); add(1020, 'work', 'Turno 17–01', 'in piedi 60" ogni 30 min');
+        meal(1200, 'P2', 'cena al lavoro · ' + MOD.P2.d); meal(1380, 'SP', 'niente dolci a quest\'ora');
+        add(1530, 'dog', 'Cane · breve', '5–10 min, luci basse');
+        break;
+      case 'N1':
+        wake = (prev === '15' || prev === '17') ? 540 : 480; bed = 1920;
+        notes.push('Prima notte: pisolino 14:30–16:00 con sveglia fissa · pasto grande alle 19:30 · niente palestra');
+        segs = [[0, wake / 60, 'sleep'], [14.5, 16, 'nap'], [23, 24, 'work']];
+        add(wake, 'wake', 'Sveglia', 'giornata normale fino al pisolino'); meal(wake + 30, 'COL');
+        add(wake + 75, 'dog', 'Cane · col sole, 30\' a passo svelto', '');
+        meal(750, 'P2'); add(870, 'nap', 'Pisolino 90 minuti', 'sveglia fissa alle 16:00');
+        add(975, 'dog', 'Cane · dopo il pisolino', 'la luce ti sveglia'); meal(990, 'SL');
+        meal(1170, 'P1', 'il vero pasto della notte · ' + MOD.P1.d); meal(1200, 'PZ', 'l\'ultimo dolce: dopo, niente');
+        add(1215, 'dog', 'Cane · digestiva', '10–15 min');
+        add(1380, 'work', 'Turno 23–07', 'luce forte fino alle 03, poi bassa');
+        break;
+      case 'N2': case 'S': {
+        add(0, 'work', 'Turno in corso fino alle 07', '');
+        meal(60, 'SP', 'niente zuccheri'); add(120, 'stop', 'Ultimo caffè', 'dopo, solo acqua o tisana');
+        add(180, 'stop', 'Dalle 03 alle 06 solo acqua o tisana', 'fame sotto 3: 20 g di grana');
+        meal(360, 'SPm', 'stomaco leggero prima di sdraiarti');
+        add(420, 'stop', 'Rientro con occhiali da sole', 'niente schermi, subito a letto');
+        if (type === 'N2') {
+          wake = 840; bed = 1920;
+          notes.push('Tra due notti: sonno 08–14 al buio, testa del letto rialzata · pisolino 45 min alle 21 · niente palestra');
+          segs = [[0, 7, 'work'], [8, 14, 'sleep'], [21, 21.75, 'nap'], [23, 24, 'work']];
+          add(450, 'sleep', 'A letto fino alle 14:00', 'buio totale, tappi, 16–19 °C');
+          add(840, 'wake', 'Sveglia', 'luce e aria'); meal(870, 'P2'); add(900, 'dog', 'Cane · col sole, 30\'', '');
+          meal(990, 'SP'); meal(1170, 'P1', 'il vero pasto della notte · ' + MOD.P1.d); meal(1200, 'PZ');
+          add(1215, 'dog', 'Cane · digestiva', '10–15 min'); add(1260, 'nap', 'Pisolino 45 minuti', 'sveglia fissa');
+          meal(1350, 'SL', 'prima di entrare'); add(1380, 'work', 'Turno 23–07', 'luce forte fino alle 03, poi bassa');
+        } else {
+          wake = 750; bed = 1350;
+          notes.push('Smonto: dormi solo fino alle 12:30, poi luce e cane · a letto alle 22:30 · niente palestra');
+          segs = [[0, 7, 'work'], [8, 12.5, 'sleep']];
+          add(450, 'sleep', 'A letto fino alle 12:30', 'buio totale, tappi');
+          add(750, 'wake', 'Sveglia', 'subito luce e aria'); meal(780, 'P1'); add(810, 'dog', 'Cane · col sole, 30\'', '');
+          meal(990, 'SP'); meal(1170, 'P2'); meal(1200, 'PZ', 'se ti va'); add(1215, 'dog', 'Cane · digestiva', '10–15 min');
+        }
+        break;
+      }
+      case 'X': {
+        const s = shiftMap.get(ds);
+        wake = 420; bed = 1380;
+        notes.push(`Orario non riconosciuto (${s ? s.start + '–' + s.end : '?'}): segui lo schema del turno più simile`);
+        if (s) { segs = [[s.startMin / 60, Math.min(24, (s.startMin + s.durMin) / 60), 'work']]; add(s.startMin, 'work', `Turno ${s.start}–${s.end}`, ''); }
+        break;
+      }
+      default: { // R
+        wake = prev === '15' ? 480 : prev === '17' ? 570 : 420; bed = 1380;
+        if (next === '07') { bed = 1335; notes.push('Domani si entra alle 07: a letto alle 22:15'); }
+        if (resolver.type(addDays(ds, -1)) === 'S') notes.push('Recupero dopo le notti: se sei stanco, salta la palestra');
+        segs = prev === '17' ? [[0, 1, 'work'], [2, 9.5, 'sleep']] : [[0, wake / 60, 'sleep']];
+        add(wake, 'wake', 'Sveglia + risveglio metabolico', 'stessa ora anche a riposo (± 1 ora)'); meal(wake + 30, 'COL');
+        add(wake + 60, 'dog', 'Cane · col sole, 30\' a passo svelto', 'l\'aerobica chiesta dal cardiologo');
+        const gt = Math.max(600, wake + 150);
+        if (g) gymItem(gt); else add(gt, 'move', 'Movimento che ti piace', '10–15 min, senza obblighi');
+        meal(gt + 45, 'SL'); meal(750, 'P1'); meal(770, 'PZ'); add(780, 'dog', 'Cane · digestiva', '10–15 min');
+        meal(960, 'SP'); meal(1170, 'P2'); add(1200, 'dog', 'Cane · uscita calma', 'passo lento, telefono in tasca');
+      }
+    }
+    if (bed !== undefined && bed < 1440) segs.push([bed / 60, 24, 'sleep']);
+    if (bed !== undefined && bed <= 1600 && !['N1', 'N2'].includes(type)) {
+      add(bed - 30, 'relax', 'Rilassamento attivo', '3 min: respiro 4-2-6, allungamenti · luci basse');
+      add(bed, 'sleep', 'A letto', bed >= 1440 ? 'dopo mezzanotte' : '');
+    }
+    it.sort((a, b) => a.t - b.t);
+    // note speciali
+    const hol = holidayOf(ds); if (hol) notes.unshift(`${hol}: il pranzo delle feste è il piacere del giorno, domani si torna ai moduli senza digiuni`);
+    if (settings.rampStart) {
+      const wi = Math.floor(diffDays(mondayOf(settings.rampStart), ds) / 7);
+      const first = ds === settings.rampStart || (dow(ds) === 0 && ds > settings.rampStart);
+      const RAMP = ['Settimana 1 della rampa: solo gli orari, proteine a ogni pasto, 3 pillole', 'Settimana 2: moduli con le grammature · palestra 1 volta, versione 15\'', 'Settimana 3: palestra 2 volte, sedute A e B', 'Settimana 4: piano completo', 'Primo semaforo: guarda le medie di 3 settimane'];
+      if (first && wi >= 0 && wi < RAMP.length) notes.unshift(RAMP[wi]);
+    }
+    const checks = [];
+    if (settings.rampStart && ds >= settings.rampStart) {
+      if ([0, 2, 4].includes(dow(ds))) checks.push('bilancia al mattino');
+      if (dow(ds) === 0 && Math.floor(diffDays(mondayOf(settings.rampStart), ds) / 7) % 2 === 0) checks.push('misura la vita');
+    }
+    const kcal = it.filter(x => x.kind === 'meal').reduce((a, x) => a + MOD[x.mod].k, 0);
+    const prot = it.filter(x => x.kind === 'meal').reduce((a, x) => a + MOD[x.mod].p, 0);
+    const coffee = ['N1', 'N2'].includes(type) ? '02:00 (di notte)' : bed !== undefined ? hhmm(bed - 360) : '—';
+    return { ds, type, prev, next, gym: g, wake, bed, segs, items: it, notes, checks, kcal, prot, coffee };
+  }
+  function prepTomorrow(ds, resolver, gymMap) {
+    const d = addDays(ds, 1), t = resolver.type(d), out = [];
+    if (t === '07') out.push('Sveglia alle 05:45: prepara stasera contenitore P2 + spuntino SP');
+    if (t === '15' || t === '17') out.push('Prepara il contenitore P2 per la cena al lavoro + lo spuntino SP');
+    if (t === 'N1') out.push('Domani c\'è la prima notte: pisolino 14:30–16:00, prepara P1 per le 19:30 e SP per l\'01:00');
+    if (t === 'N2') out.push('Altra notte: SP per l\'01:00 e mezza SP per le 06:00');
+    if (t === 'S') out.push('Domani è smonto: tende chiuse, tappi pronti, sveglia alle 12:30');
+    if (gymMap[d]) out.push(`Palestra ${gymMap[d]} domani: prepara la borsa`);
+    return { date: d, type: t, list: out };
+  }
+
+  // ---------- Apple Health ----------
+  const H_TYPES = {
+    peso: { n: 'Peso', u: 'kg', rel: 'alta' }, passi: { n: 'Passi', u: 'passi/giorno', rel: 'alta' },
+    fc_riposo: { n: 'Battiti a riposo', u: 'bpm', rel: 'alta' }, respiro: { n: 'Respiri notturni', u: 'atti/min', rel: 'alta (andamento)' },
+    sonno: { n: 'Sonno', u: 'ore', rel: 'alta (durata)' }, pa_sis: { n: 'Pressione massima', u: 'mmHg', rel: 'alta' },
+    pa_dia: { n: 'Pressione minima', u: 'mmHg', rel: 'alta' }, energia: { n: 'Calorie attive', u: 'kcal', rel: 'indicativa' }
+  };
+  const H_ALIAS = { peso: 'peso', weight: 'peso', 'body mass': 'peso', 'massa corporea': 'peso', passi: 'passi', steps: 'passi', 'step count': 'passi', fc_riposo: 'fc_riposo', 'resting heart rate': 'fc_riposo', 'frequenza cardiaca a riposo': 'fc_riposo', respiro: 'respiro', 'respiratory rate': 'respiro', 'frequenza respiratoria': 'respiro', sonno: 'sonno', sleep: 'sonno', 'sleep analysis': 'sonno', 'analisi del sonno': 'sonno', pa_sis: 'pa_sis', 'blood pressure systolic': 'pa_sis', 'pressione sistolica': 'pa_sis', pa_dia: 'pa_dia', 'blood pressure diastolic': 'pa_dia', 'pressione diastolica': 'pa_dia', energia: 'energia', 'active energy': 'energia', 'energia attiva': 'energia' };
+  const SLEEP_YES = /asleep|core|deep|rem|sonno|addormentat|principale|profondo|leggero|essenziale|base|nucleo|unspecified|non specificato/i;
+  const SLEEP_NO = /in ?bed|a letto|awake|sveglio|veglia|^\s*sveglia/i;
+  function parseNum(v) { if (v == null) return NaN; return parseFloat(String(v).replace(/\s/g, '').replace(',', '.')); }
+  function parseWhen(s) { if (!s) return NaN; const v = String(s).trim().replace(' ', 'T').replace(/([+-]\d{2})(\d{2})$/, '$1:$2'); return Date.parse(v); }
+  function parseHealth(text) {
+    const rows = [], rejected = [];
+    let records = [];
+    const tt = text.trim();
+    if (tt.startsWith('[') || tt.startsWith('{')) {
+      try { const j = JSON.parse(tt); records = (Array.isArray(j) ? j : j.campioni || j.samples || []).map(o => [o.tipo || o.type, o.inizio || o.start, o.fine || o.end, o.valore ?? o.value, o.unita || o.unit]); }
+      catch (e) { rejected.push({ line: 'JSON', why: 'JSON non valido: ' + e.message }); }
+    } else {
+      // tollera gli "a capo" finiti per sbaglio dentro una riga del comando rapido:
+      // una riga che non comincia con un tipo noto viene riattaccata alla precedente
+      const joined = [];
+      for (const l of tt.split(/\r?\n/)) {
+        if (!l.trim()) continue;
+        const head = l.split('|')[0].trim().toLowerCase();
+        if (H_ALIAS[head] || !joined.length) joined.push(l.trim()); else joined[joined.length - 1] += l.trim();
+      }
+      records = joined.map(l => l.split('|').map(x => x.trim()));
+    }
+    for (const r of records) {
+      const line = r.join('|');
+      const key = H_ALIAS[String(r[0] || '').toLowerCase()];
+      if (!key) { rejected.push({ line, why: 'tipo sconosciuto' }); continue; }
+      const st = parseWhen(r[1]); const en = r[2] ? parseWhen(r[2]) : st;
+      if (isNaN(st)) { rejected.push({ line, why: 'data non leggibile' }); continue; }
+      if (key === 'sonno') {
+        const label = String(r[3] || '');
+        const code = parseNum(label);
+        if (!isNaN(code)) { if (![1, 3, 4, 5].includes(code)) { rejected.push({ line, why: `fase del sonno ${code} (a letto/sveglio), esclusa` }); continue; } }
+        else if (SLEEP_NO.test(label)) { rejected.push({ line, why: 'fase "a letto/sveglio", esclusa dal sonno' }); continue; }
+        else if (label && !SLEEP_YES.test(label)) { rejected.push({ line, why: `fase del sonno "${label}" non riconosciuta: dimmela e la aggiungo` }); continue; }
+        if (isNaN(en) || en <= st) { rejected.push({ line, why: 'durata del sonno non valida' }); continue; }
+        rows.push({ type: key, start: st, end: en, value: (en - st) / 3600e3, raw: line });
+        continue;
+      }
+      const v = parseNum(r[3]);
+      if (isNaN(v)) { rejected.push({ line, why: 'valore non numerico' }); continue; }
+      let val = v; const unit = String(r[4] || '').toLowerCase();
+      if (key === 'peso' && (unit === 'lb' || unit === 'lbs')) val = v * 0.45359237;
+      if (key === 'peso' && unit === 'g') val = v / 1000;
+      rows.push({ type: key, start: st, end: isNaN(en) ? st : en, value: val, raw: line });
+    }
+    rows.forEach(r => r.id = `${r.type}|${r.start}|${r.end}`);
+    return { rows, rejected };
+  }
+  function dailyHealth(samples) { // aggregati per giorno (Roma)
+    const by = {};
+    const put = (t, d, v, mode) => { by[t] = by[t] || {}; const o = by[t][d] = by[t][d] || { sum: 0, n: 0, max: -Infinity, last: null, lastT: 0 }; o.sum += v; o.n++; o.max = Math.max(o.max, v); if (mode >= o.lastT) { o.last = v; o.lastT = mode; } };
+    for (const s of samples) {
+      const d = s.type === 'sonno' || s.type === 'respiro' ? romeParts(s.end).date : romeParts(s.start).date;
+      put(s.type, d, s.value, s.start);
+    }
+    const out = {};
+    for (const t in by) {
+      out[t] = {};
+      for (const d in by[t]) {
+        const o = by[t][d];
+        out[t][d] = t === 'passi' || t === 'sonno' || t === 'energia' ? o.sum : t === 'respiro' ? o.max : t === 'peso' ? o.last : o.sum / o.n;
+      }
+    }
+    return out;
+  }
+
+  // ---------- backup cifrato ----------
+  const b64 = buf => { let s = ''; const b = new Uint8Array(buf); for (let i = 0; i < b.length; i += 0x8000) s += String.fromCharCode.apply(null, b.subarray(i, i + 0x8000)); return btoa(s); };
+  const unb64 = s => Uint8Array.from(atob(s), c => c.charCodeAt(0));
+  async function deriveKey(pass, salt, iter) {
+    const base = await crypto.subtle.importKey('raw', new TextEncoder().encode(pass), 'PBKDF2', false, ['deriveKey']);
+    return crypto.subtle.deriveKey({ name: 'PBKDF2', salt, iterations: iter, hash: 'SHA-256' }, base, { name: 'AES-GCM', length: 256 }, false, ['encrypt', 'decrypt']);
+  }
+  async function encryptBackup(obj, pass) {
+    const iter = 600000, salt = crypto.getRandomValues(new Uint8Array(16)), iv = crypto.getRandomValues(new Uint8Array(12));
+    const key = await deriveKey(pass, salt, iter);
+    const ct = await crypto.subtle.encrypt({ name: 'AES-GCM', iv }, key, new TextEncoder().encode(JSON.stringify(obj)));
+    return { app: 'Ritmo27', format: 1, kdf: { name: 'PBKDF2', hash: 'SHA-256', iter, salt: b64(salt) }, cipher: 'AES-GCM-256', iv: b64(iv), data: b64(ct) };
+  }
+  async function decryptBackup(env, pass) {
+    if (!env || env.app !== 'Ritmo27') throw new Error('Non è un backup di Ritmo27');
+    const key = await deriveKey(pass, unb64(env.kdf.salt), env.kdf.iter);
+    let pt; try { pt = await crypto.subtle.decrypt({ name: 'AES-GCM', iv: unb64(env.iv) }, key, unb64(env.data)); } catch (e) { throw new Error('Password sbagliata o file danneggiato'); }
+    return JSON.parse(new TextDecoder().decode(pt));
+  }
+
+  return { TZ, VERSION, SCHEMA, romeParts, romeToUTC, addDays, dow, mondayOf, diffDays, todayRome, nowMinRome, hhmm, WD, WDL, MESI, dateLabel, holidayOf, easter, parseICS, classify, shiftsFromICS, diffShifts, makeResolver, TYPE_INFO, MOD, GYM, GYM_RULE, gymSchedule, planDay, prepTomorrow, H_TYPES, parseHealth, dailyHealth, encryptBackup, decryptBackup };
+})();
+if (typeof module !== 'undefined') module.exports = Core;
+/* ===== fine core ===== */
+</script>
+
+<script>
+/* ============================================================
+   Ritmo27 · F1 · archivio (IndexedDB) e interfaccia
+   ============================================================ */
+(() => {
+  if (typeof document === 'undefined') return;
+  const C = Core;
+  const STORES = ['shifts', 'imports', 'exceptions', 'health', 'daylogs', 'settings'];
+  const KEYS = { shifts: 'date', imports: 'id', exceptions: 'date', health: 'id', daylogs: 'date', settings: 'key' };
+  let db;
+  function openDB() {
+    return new Promise((res, rej) => {
+      const r = indexedDB.open('ritmo27', 1);
+      r.onupgradeneeded = () => { const d = r.result; for (const s of STORES) if (!d.objectStoreNames.contains(s)) d.createObjectStore(s, { keyPath: KEYS[s] }); };
+      r.onsuccess = () => res(r.result); r.onerror = () => rej(r.error);
+    });
+  }
+  const tx = (store, mode = 'readonly') => db.transaction(store, mode).objectStore(store);
+  const all = store => new Promise((res, rej) => { const q = tx(store).getAll(); q.onsuccess = () => res(q.result); q.onerror = () => rej(q.error); });
+  const put = (store, v) => new Promise((res, rej) => { const q = tx(store, 'readwrite').put(v); q.onsuccess = () => res(); q.onerror = () => rej(q.error); });
+  const del = (store, k) => new Promise((res, rej) => { const q = tx(store, 'readwrite').delete(k); q.onsuccess = () => res(); q.onerror = () => rej(q.error); });
+  function bulk(store, puts = [], dels = []) {
+    return new Promise((res, rej) => { const t = db.transaction(store, 'readwrite'); const s = t.objectStore(store); dels.forEach(k => s.delete(k)); puts.forEach(v => s.put(v)); t.oncomplete = () => res(); t.onerror = () => rej(t.error); });
+  }
+  function clearAll() { return new Promise((res, rej) => { const t = db.transaction(STORES, 'readwrite'); STORES.forEach(s => t.objectStore(s).clear()); t.oncomplete = () => res(); t.onerror = () => rej(t.error); }); }
+
+  // ---------- stato ----------
+  const S = { tab: 'oggi', date: C.todayRome(), month: C.todayRome().slice(0, 7), shifts: new Map(), exc: new Map(), health: [], logs: new Map(), imports: [], set: {}, persisted: null };
+  const DEFAULTS = { rampStart: '2026-11-24', target1: 81, target2: 79, kcal: 2150, lastBackup: null, created: null };
+  let resolver, gymMap = {}, daily = {};
+  async function load() {
+    const [sh, im, ex, he, lo, se] = await Promise.all(STORES.map(all)); // stesso ordine di STORES
+    S.shifts = new Map(sh.map(s => [s.date, s])); S.imports = im.sort((a, b) => b.at - a.at); S.exc = new Map(ex.map(e => [e.date, e]));
+    S.health = he; S.logs = new Map(lo.map(l => [l.date, l]));
+    S.set = { ...DEFAULTS }; se.forEach(x => S.set[x.key] = x.value);
+    if (!S.set.created) { S.set.created = Date.now(); await put('settings', { key: 'created', value: S.set.created }); }
+    recompute();
+  }
+  function recompute() {
+    resolver = C.makeResolver(S.shifts, S.exc);
+    const dates = [...S.shifts.keys()].sort();
+    const lastShift = dates.length ? dates[dates.length - 1] : C.todayRome();
+    const horizon = [lastShift, C.addDays(C.todayRome(), 60)].sort()[1];
+    gymMap = C.gymSchedule(resolver, S.set.rampStart, horizon);
+    daily = C.dailyHealth(S.health);
+  }
+  async function setSetting(key, value) { S.set[key] = value; await put('settings', { key, value }); }
+
+  // ---------- utilità interfaccia ----------
+  const $ = s => document.querySelector(s);
+  const esc = s => String(s ?? '').replace(/[&<>"']/g, c => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[c]));
+  function toast(msg) { const t = document.createElement('div'); t.className = 'toast'; t.textContent = msg; document.body.appendChild(t); setTimeout(() => t.remove(), 2600); }
+  function modal(html) { $('#layer').innerHTML = `<div class="modal" data-act="closebg"><div class="sheet" role="dialog" aria-modal="true">${html}</div></div>`; }
+  function closeModal() { $('#layer').innerHTML = ''; }
+  const SEGC = { sleep: '#312E81', nap: '#8B7FE0', work: '#9CA0A8', gym: '#EA580C' };
+  const ICO = {
+    meal: '<circle cx="12" cy="12" r="8"/><circle cx="12" cy="12" r="4"/>',
+    dog: '<circle cx="7" cy="9" r="2"/><circle cx="12" cy="6" r="2"/><circle cx="17" cy="9" r="2"/><path d="M8 17c0-3 2-5 4-5s4 2 4 5c0 2-2 2-4 2s-4 0-4-2z"/>',
+    gym: '<path d="M3 9v6M6 7v10M18 7v10M21 9v6M6 12h12"/>', sleep: '<path d="M20 14A8 8 0 1 1 10 4a6 6 0 0 0 10 10z"/>', nap: '<path d="M20 14A8 8 0 1 1 10 4a6 6 0 0 0 10 10z"/>',
+    work: '<path d="M4 14v-2a8 8 0 0 1 16 0v2M4 14h3v5H4zM17 14h3v5h-3z"/>', wake: '<circle cx="12" cy="12" r="4"/><path d="M12 2v3M12 19v3M2 12h3M19 12h3M5 5l2 2M17 17l2 2M5 19l2-2M17 7l2-2"/>',
+    relax: '<path d="M3 9c3-4 6 4 9 0s6 4 9 0M3 15c3-4 6 4 9 0s6 4 9 0"/>', stop: '<circle cx="12" cy="12" r="8"/><path d="M7 17L17 7"/>', move: '<circle cx="12" cy="5" r="2"/><path d="M12 8v6l-3 6M12 14l3 6M8 11h8"/>'
+  };
+  const KC = { dog: '#0F766E', gym: '#EA580C', sleep: '#312E81', nap: '#8B7FE0', work: '#4B5060', wake: '#B45309', relax: '#6D28D9', stop: '#9A3412', move: '#0F766E' };
+  const svg = (k, col = '#fff', s = 22) => `<svg width="${s}" height="${s}" viewBox="0 0 24 24" aria-hidden="true" fill="none" stroke="${col}" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">${ICO[k] || ICO.stop}</svg>`;
+  function chip(type, size = 44) { const i = C.TYPE_INFO[type] || C.TYPE_INFO.X; return `<span class="chip" style="background:${i.bg};color:${i.fg};${i.border ? `border:2px solid ${i.border};` : ''}min-width:${size}px;height:${size}px">${i.lab}</span>`; }
+  function stripHTML(p) {
+    const segs = [...p.segs].sort((a, b) => (a[2] === 'gym') - (b[2] === 'gym')).map(([a, b, k]) => `<div style="left:${a / 24 * 100}%;width:${Math.max(b - a, .35) / 24 * 100}%;background:${SEGC[k]}"></div>`).join('');
+    const dots = p.items.filter(x => x.kind === 'meal' && x.t < 1440).map(x => `<div style="left:calc(${x.t / 1440 * 100}% - 4px);background:${C.MOD[x.mod].c}"></div>`).join('');
+    return `<div class="strip">${segs}</div><div class="dots">${dots}</div>`;
+  }
+  const TICKS = `<div class="ticks">${[0, 6, 12, 18, 24].map(h => `<span style="left:${h / 24 * 100}%">${h}</span>`).join('')}</div>`;
+  const itemKey = x => `${x.t}|${x.label}`;
+
+  // ---------- render principale ----------
+  const TABS = [['oggi', 'Oggi', 'wake'], ['cal', 'Calendario', 'work'], ['reg', 'Registra', '+'], ['salute', 'Salute', 'relax'], ['altro', 'Altro', 'move']];
+  function renderNav() {
+    $('#nav').innerHTML = TABS.map(([k, l, ic]) => k === 'reg'
+      ? `<button class="plus ${S.tab === k ? 'on' : ''}" data-tab="${k}"><span class="ic"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="3" stroke-linecap="round"><path d="M12 5v14M5 12h14"/></svg></span>${l}</button>`
+      : `<button class="${S.tab === k ? 'on' : ''}" data-tab="${k}" aria-current="${S.tab === k}">${svg(ic, S.tab === k ? '#C2410C' : '#5B5F68', 24)}${l}</button>`).join('');
+  }
+  function render() { renderNav(); const v = { oggi: vOggi, cal: vCal, reg: vReg, salute: vSalute, altro: vAltro }[S.tab]; $('#app').innerHTML = v(); window.scrollTo(0, 0); }
+  function header(kick, title, right = '') { return `<div class="top"><div><div class="kick">${kick}</div><h1>${title}</h1></div>${right}</div>`; }
+
+  // ---------- OGGI ----------
+  function vOggi() {
+    const ds = S.date, today = C.todayRome();
+    const p = C.planDay(ds, resolver, gymMap, S.set, S.shifts);
+    const info = C.TYPE_INFO[p.type];
+    const log = S.logs.get(ds) || { date: ds, done: {} };
+    const meals = p.items.filter(x => x.kind === 'meal');
+    const done = p.items.filter(x => log.done[itemKey(x)]).length;
+    const nowM = ds === today ? C.nowMinRome() : -1;
+    const nextIt = ds === today ? p.items.find(x => x.t >= nowM && !log.done[itemKey(x)]) : null;
+    const hasShifts = S.shifts.size > 0;
+    const backupOld = !S.set.lastBackup || (Date.now() - S.set.lastBackup) > 7 * 864e5;
+    const prep = C.prepTomorrow(ds, resolver, gymMap);
+    const nav = `<div class="row" style="gap:6px"><button class="btn sec" data-act="day" data-d="-1" aria-label="Giorno prima">‹</button>${ds !== today ? `<button class="btn sec" data-act="today">Oggi</button>` : ''}<button class="btn sec" data-act="day" data-d="1" aria-label="Giorno dopo">›</button></div>`;
+    let h = header(ds === today ? 'Oggi' : C.dateLabel(ds).split(' ')[0], C.dateLabel(ds).replace(/^\S+ /, ''), nav);
+    if (!hasShifts) h += `<div class="warn"><b>Nessun turno caricato.</b> Vai su Calendario e importa il tuo file ICS: senza turni ogni giorno risulta riposo.</div>`;
+    if (backupOld && (S.shifts.size || S.health.length)) h += `<div class="warn"><b>Backup da fare.</b> ${S.set.lastBackup ? 'L\'ultimo è di più di 7 giorni fa.' : 'Non ne hai ancora fatto uno.'} <button class="btn ghost" data-act="goBackup" style="color:#C2410C;text-decoration:underline">Fallo ora</button></div>`;
+    h += `<div class="card dark"><div class="row" style="justify-content:space-between"><div><div class="kick" style="color:#B9BCC4">${esc(info.name)}</div><div class="big" style="font-size:24px;margin-top:4px">sveglia ${C.hhmm(p.wake)} · letto ${p.type === 'N1' || p.type === 'N2' ? '08:00' : C.hhmm(p.bed)}</div></div>${chip(p.type, 52)}</div>
+      <div style="margin-top:12px">${stripHTML(p)}${TICKS}</div>
+      <div class="row small" style="margin-top:6px;color:#DADCE1;flex-wrap:wrap;gap:12px"><span><b style="color:#fff">${p.kcal}</b> kcal</span><span><b style="color:#fff">~${p.prot}</b> g proteine</span><span>ultimo caffè <b style="color:#fff">${p.coffee}</b></span>${p.gym ? `<span style="color:#FB923C"><b>Palestra ${p.gym}</b></span>` : ''}</div></div>`;
+    if (nextIt) h += `<div class="card" style="border:2px solid var(--or)"><div class="kick" style="color:var(--or)">Prossima cosa · ${C.hhmm(nextIt.t)}</div><div style="font-size:18px;font-weight:800;margin-top:4px">${esc(nextIt.label)}</div><div class="small mute">${esc(nextIt.detail || '')}</div></div>`;
+    if (p.notes.length || p.checks.length) h += `<div class="card">${p.notes.map(n => `<div class="row" style="align-items:flex-start;margin-bottom:6px">${svg('stop', '#9A3412', 18)}<div style="font-size:13px;font-weight:600;color:#9A3412">${esc(n)}</div></div>`).join('')}${p.checks.length ? `<div class="row" style="gap:6px;flex-wrap:wrap">${p.checks.map(c => `<span class="pill" style="background:#EEF3FF;color:#1D4ED8">${esc(c)}</span>`).join('')}</div>` : ''}</div>`;
+    h += `<div class="row" style="justify-content:space-between;margin:6px 0 8px"><div class="kick">La giornata · ${done}/${p.items.length} fatto</div><button class="btn ghost small" data-act="editDay">Modifica giorno</button></div>`;
+    h += `<div class="col">${p.items.map(x => {
+      const isMeal = x.kind === 'meal'; const col = isMeal ? C.MOD[x.mod].c : KC[x.kind]; const dk = x.kind === 'work' || x.kind === 'sleep'; const on = !!log.done[itemKey(x)];
+      const badge = isMeal ? `<span class="badge" style="background:${col}">${x.mod === 'SPm' ? 'SP½' : x.mod} · ${C.MOD[x.mod].k}</span>` : '';
+      return `<div class="item"><div class="t">${C.hhmm(x.t)}</div><div class="bar" style="background:${col}"></div><button class="box ${dk ? 'dk' : ''} ${on ? 'done' : ''}" data-act="tick" data-k="${esc(itemKey(x))}"><div class="ico" style="background:${col}">${svg(isMeal ? 'meal' : x.kind)}</div><div style="min-width:0"><div style="font-weight:800;font-size:14px">${esc(x.label)}${badge}</div><div class="small" style="color:${dk ? '#C9CCD3' : '#5B5F68'}">${esc(x.detail || '')}</div></div><span class="tick ${on ? 'on' : ''}">${on ? '<svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="4"><path d="M5 12l5 5 9-10"/></svg>' : ''}</span></button></div>`;
+    }).join('')}</div>`;
+    if (p.gym) h += `<div class="card" style="margin-top:12px;border-top:6px solid #EA580C"><div class="row" style="justify-content:space-between"><h2>Palestra ${p.gym}</h2><span class="small mute">~${p.gym === "15'" ? 15 : 30} min</span></div><ol style="margin:8px 0 6px 18px;padding:0;font-size:14px;line-height:1.6">${C.GYM[p.gym].map(e => `<li>${esc(e)}</li>`).join('')}</ol><div class="small" style="color:#9A3412;font-weight:600">${C.GYM_RULE}</div></div>`;
+    if (prep.list.length) h += `<div class="card" style="margin-top:12px"><div class="kick">Prepara domani · ${esc(C.TYPE_INFO[prep.type].name)}</div>${prep.list.map(x => `<div style="font-size:14px;margin-top:6px">• ${esc(x)}</div>`).join('')}</div>`;
+    h += `<div class="card" style="margin-top:12px"><div class="kick">I moduli di oggi</div><div class="col" style="margin-top:8px">${meals.map(x => `<div class="row" style="align-items:flex-start"><span class="badge" style="background:${C.MOD[x.mod].c};margin:2px 0 0">${x.mod === 'SPm' ? 'SP½' : x.mod}</span><div class="small"><b>${C.hhmm(x.t)} · ${esc(C.MOD[x.mod].n)}</b> · ${C.MOD[x.mod].k} kcal<br><span class="mute">${esc(C.MOD[x.mod].d)}</span></div></div>`).join('')}</div></div>`;
+    return h;
+  }
+
+  // ---------- CALENDARIO ----------
+  function vCal() {
+    const [y, m] = S.month.split('-').map(Number);
+    const first = `${S.month}-01`, days = new Date(Date.UTC(y, m, 0)).getUTCDate(), today = C.todayRome();
+    let cells = '<div></div>'.repeat(C.dow(first));
+    for (let d = 1; d <= days; d++) {
+      const ds = `${S.month}-${String(d).padStart(2, '0')}`; const t = resolver.type(ds); const i = C.TYPE_INFO[t];
+      cells += `<button data-act="openDay" data-ds="${ds}" class="${ds === today ? 'today' : ''}" style="background:${i.bg};color:${i.fg};${i.border ? `box-shadow:inset 0 0 0 2px ${i.border};` : ''}" aria-label="${C.dateLabel(ds)}: ${i.name}${gymMap[ds] ? ', palestra ' + gymMap[ds] : ''}"><span class="d">${d}</span>${i.lab}${gymMap[ds] ? `<span class="g">${gymMap[ds] === "15'" ? '15' : gymMap[ds]}</span>` : ''}${S.exc.has(ds) || C.holidayOf(ds) ? '<span class="x"></span>' : ''}</button>`;
+    }
+    const prevM = new Date(Date.UTC(y, m - 2, 1)).toISOString().slice(0, 7), nextM = new Date(Date.UTC(y, m, 1)).toISOString().slice(0, 7);
+    const cnt = {}; for (let d = 1; d <= days; d++) { const t = resolver.type(`${S.month}-${String(d).padStart(2, '0')}`); const k = t.startsWith('N') ? 'N' : t; cnt[k] = (cnt[k] || 0) + 1; }
+    const gyms = Object.keys(gymMap).filter(d => d.startsWith(S.month)).length;
+    let h = header('Calendario', `${C.MESI[m - 1]} ${y}`, `<div class="row" style="gap:6px"><button class="btn sec" data-act="month" data-m="${prevM}" aria-label="Mese prima">‹</button><button class="btn sec" data-act="month" data-m="${nextM}" aria-label="Mese dopo">›</button></div>`);
+    h += `<div class="card"><div class="cal">${C.WD.map(w => `<div class="h">${w[0]}</div>`).join('')}${cells}</div>
+      <div class="legend" style="margin-top:10px"><span><i style="background:#B45309"></i>07–15</span><span><i style="background:#1D4ED8"></i>15–23</span><span><i style="background:#4B5060"></i>17–01</span><span><i style="background:#312E81"></i>notte</span><span><i style="background:#C4B5FD"></i>smonto</span><span><i style="background:#fff;box-shadow:inset 0 0 0 2px #0F766E"></i>riposo</span><span><i style="background:#FB923C;border-radius:5px"></i>palestra</span><span><i style="background:#6D28D9;border-radius:5px"></i>festa o modifica</span></div></div>`;
+    h += `<div class="grid3" style="margin-bottom:12px">${[['07', cnt['07'] || 0, '#B45309'], ['15–23', cnt['15'] || 0, '#1D4ED8'], ['17–01', cnt['17'] || 0, '#4B5060'], ['notti', cnt.N || 0, '#312E81'], ['riposo', (cnt.R || 0) + (cnt.S || 0), '#0F766E'], ['palestra', gyms, '#EA580C']].map(([l, n, c]) => `<div class="card" style="margin:0;text-align:center;padding:10px"><div class="big" style="font-size:22px;color:${c}">${n}</div><div class="small mute">${l}</div></div>`).join('')}</div>`;
+    h += `<div class="card"><h2>Importa i turni</h2><p class="small mute" style="margin:6px 0 10px">Il file ICS che generi dal cartellone. Il turno si riconosce dall'<b>ora di inizio</b>, non dal titolo. Prima di salvare vedi cosa cambia.</p><label class="btn full or" style="display:flex;align-items:center;justify-content:center">Scegli il file ICS<input type="file" accept=".ics,text/calendar" data-act="icsfile" hidden></label></div>`;
+    if (S.imports.length) h += `<div class="card"><div class="kick">Ultime importazioni</div><table style="margin-top:6px"><tr><th>Quando</th><th>Periodo</th><th>Turni</th><th>Avvisi</th></tr>${S.imports.slice(0, 5).map(i => `<tr><td>${new Date(i.at).toLocaleString('it-IT', { day: '2-digit', month: '2-digit', hour: '2-digit', minute: '2-digit' })}</td><td>${i.from} → ${i.to}</td><td>${i.count} (+${i.added} −${i.removed} ~${i.changed})</td><td>${i.warnings.length}</td></tr>`).join('')}</table></div>`;
+    return h;
+  }
+  function showImportPreview(res, filename, text) {
+    const old = [...S.shifts.values()];
+    const d = C.diffShifts(old, res.shifts, res.from, res.to);
+    const byT = {}; res.shifts.forEach(s => byT[s.type] = (byT[s.type] || 0) + 1);
+    const lst = (arr, f) => arr.slice(0, 12).map(f).join('') + (arr.length > 12 ? `<div class="small mute">… e altri ${arr.length - 12}</div>` : '');
+    S._pending = { res, filename, diff: d };
+    modal(`<h2>Anteprima importazione</h2><p class="small mute">${esc(filename)} · ${res.events} eventi nel file</p>
+      <div class="ok"><b>${res.shifts.length} turni</b> dal ${res.from} al ${res.to} <span class="mute">(periodo preso da: ${res.rangeSource})</span><br>${Object.entries(byT).map(([t, n]) => `${t === 'N' ? 'notti' : t === 'X' ? 'orario insolito' : t}: <b>${n}</b>`).join(' · ')}</div>
+      <div class="grid3" style="margin-bottom:12px"><div class="card" style="margin:0;text-align:center"><div class="big" style="font-size:22px;color:#3F8F5A">+${d.added.length}</div><div class="small mute">nuovi</div></div><div class="card" style="margin:0;text-align:center"><div class="big" style="font-size:22px;color:#9A3412">−${d.removed.length}</div><div class="small mute">tolti</div></div><div class="card" style="margin:0;text-align:center"><div class="big" style="font-size:22px;color:#B45309">~${d.changed.length}</div><div class="small mute">cambiati</div></div></div>
+      ${old.length && (d.removed.length || d.changed.length) ? `<div class="card"><div class="kick">Cosa cambia rispetto a prima</div>${lst(d.changed, c => `<div class="small">${c.to.date}: ${c.from.start} → <b>${c.to.start}</b></div>`)}${lst(d.removed, s => `<div class="small">${s.date}: tolto il turno delle ${s.start} (diventa riposo)</div>`)}</div>` : ''}
+      ${res.skipped.length ? `<div class="warn"><b>${res.skipped.length} eventi esclusi perché non sono turni</b> (durano meno di 6 o più di 11 ore)${res.skipped.slice(0, 8).map(x => `<div class="small">• ${x.date} ${x.start} · ${x.dur} h · ${esc(x.summary)}</div>`).join('')}</div>` : ''}
+      ${res.warnings.length ? `<div class="warn"><b>${res.warnings.length} avvisi</b>${res.warnings.slice(0, 15).map(w => `<div class="small">• ${esc(w)}</div>`).join('')}</div>` : ''}
+      <p class="small mute">Salvando, i turni tra ${res.from} e ${res.to} vengono sostituiti da quelli del file. I giorni senza turno in quel periodo diventano riposo.</p>
+      <div class="row"><button class="btn sec" data-act="close" style="flex:1">Annulla</button><button class="btn or" data-act="importConfirm" style="flex:2">Salva i turni</button></div>`);
+  }
+  async function confirmImport() {
+    const { res, filename, diff } = S._pending; const old = [...S.shifts.values()].filter(s => s.date >= res.from && s.date <= res.to).map(s => s.date);
+    await bulk('shifts', res.shifts.map(s => ({ ...s, importedAt: Date.now() })), old);
+    const rec = { id: 'imp' + Date.now(), at: Date.now(), filename, from: res.from, to: res.to, count: res.shifts.length, added: diff.added.length, removed: diff.removed.length, changed: diff.changed.length, warnings: res.warnings };
+    await put('imports', rec);
+    await load(); closeModal(); render(); toast(`${res.shifts.length} turni salvati`);
+  }
+  function editDayModal(ds) {
+    const e = S.exc.get(ds); const base = S.shifts.get(ds);
+    modal(`<h2>${C.dateLabel(ds)}</h2><p class="small mute">Dal file: ${base ? `turno ${base.start}–${base.end}` : 'riposo'}${C.holidayOf(ds) ? ' · ' + C.holidayOf(ds) : ''}</p>
+      <div class="kick" style="margin:10px 0 6px">Modifica solo questo giorno</div>
+      <div class="seg" id="excSeg">${[['none', 'Come da file'], ['ferie', 'Ferie / riposo'], ['cambio:07', 'Cambio: 07'], ['cambio:15', 'Cambio: 15'], ['cambio:17', 'Cambio: 17'], ['cambio:N', 'Cambio: notte']].map(([k, l]) => { const on = (!e && k === 'none') || (e && (e.kind === 'ferie' ? 'ferie' : 'cambio:' + e.type) === k); return `<button data-act="excPick" data-k="${k}" class="${on ? 'on' : ''}">${l}</button>`; }).join('')}</div>
+      <label class="small mute" style="display:block;margin-top:12px">Nota (facoltativa)<input type="text" id="excNote" value="${esc(e?.note || '')}" placeholder="es. cena di famiglia"></label>
+      <div class="row" style="margin-top:14px"><button class="btn sec" data-act="close" style="flex:1">Annulla</button><button class="btn or" data-act="excSave" data-ds="${ds}" style="flex:2">Salva</button></div>`);
+    S._excPick = e ? (e.kind === 'ferie' ? 'ferie' : 'cambio:' + e.type) : 'none';
+  }
+
+  // ---------- REGISTRA ----------
+  function vReg() {
+    let h = header('Registra', 'Un tocco e via');
+    h += `<div class="card"><h2>Incolla da Salute</h2><p class="small mute" style="margin:6px 0 10px">Lancia il comando rapido "Ritmo27" sull'iPhone, poi torna qui e incolla. Le istruzioni per crearlo sono in Altro → Comando rapido.</p><button class="btn full or" data-act="healthPaste">Incolla da Salute</button></div>`;
+    h += `<div class="card"><div class="kick">In arrivo nelle prossime fasi</div><div class="col small" style="margin-top:8px">${[['Peso, vita, pressione a 7 giorni', 'F2'], ['Referti e prescrizioni', 'F3'], ['Serie e carichi in palestra', 'F4'], ['Dispensa → pasto, contatore uova', 'F5']].map(([a, b]) => `<div class="row" style="justify-content:space-between"><span>${a}</span><span class="pill" style="background:#ECEAE4">${b}</span></div>`).join('')}</div><p class="small mute" style="margin:10px 0 0">Per ora il peso e la pressione arrivano da Salute, se li registri lì.</p></div>`;
+    return h;
+  }
+  function healthModal() {
+    modal(`<h2>Incolla da Salute</h2><p class="small mute">Una riga per dato: <code>tipo|inizio|fine|valore|unità</code>. Va bene anche un blocco JSON.</p>
+      <textarea id="hText" placeholder="peso|2026-11-24T07:10:00+01:00||90,1|kg"></textarea>
+      <div class="row" style="margin-top:10px"><button class="btn sec" data-act="pasteClip" style="flex:1">Incolla appunti</button><button class="btn or" data-act="healthCheck" style="flex:1">Controlla</button></div><div id="hRes"></div>`);
+  }
+  function healthCheck() {
+    const txt = $('#hText').value; const r = C.parseHealth(txt);
+    const have = new Map(S.health.map(x => [x.id, x.value])); const fresh = r.rows.filter(x => !have.has(x.id) || Math.abs(have.get(x.id) - x.value) > 1e-6); const upd = fresh.filter(x => have.has(x.id)).length; const dup = r.rows.length - fresh.length;
+    const byT = {}; fresh.forEach(x => byT[x.type] = (byT[x.type] || 0) + 1);
+    S._health = fresh;
+    $('#hRes').innerHTML = `<div class="ok" style="margin-top:12px"><b>${fresh.length - upd} nuovi</b> · ${upd} aggiornati · ${dup} già presenti · ${r.rejected.length} scartati</div>
+      ${fresh.length ? `<table><tr><th>Dato</th><th>Righe</th><th>Affidabilità</th></tr>${Object.entries(byT).map(([t, n]) => `<tr><td>${C.H_TYPES[t].n}</td><td>${n}</td><td><span class="pill" style="background:${C.H_TYPES[t].rel === 'indicativa' ? '#FFF0E8' : '#EEF3FF'}">${C.H_TYPES[t].rel}</span></td></tr>`).join('')}</table>` : ''}
+      ${r.rejected.length ? `<div class="warn" style="margin-top:10px"><b>Scartati</b>${r.rejected.slice(0, 12).map(x => `<div class="small">• ${esc(x.why)}: <code>${esc(x.line.slice(0, 60))}</code></div>`).join('')}${r.rejected.length > 12 ? `<div class="small">… e altri ${r.rejected.length - 12}</div>` : ''}</div>` : ''}
+      ${fresh.length ? `<button class="btn full or" data-act="healthSave" style="margin-top:10px">Salva ${fresh.length} dati</button>` : ''}`;
+  }
+
+  // ---------- SALUTE ----------
+  function spark(vals, color, lo, hi) {
+    const w = 120, hgt = 32, pts = vals.map((v, i) => v == null ? null : [i, v]).filter(Boolean);
+    if (pts.length < 2) return `<span class="small mute">${pts.length ? '' : '—'}</span>`;
+    const ys = pts.map(p => p[1]); const mn = Math.min(...ys, lo ?? Infinity), mx = Math.max(...ys, hi ?? -Infinity), rg = (mx - mn) || 1;
+    const X = i => i / (vals.length - 1) * (w - 4) + 2, Y = v => hgt - 2 - (v - mn) / rg * (hgt - 4);
+    const band = lo != null && hi != null ? `<rect x="0" y="${Y(hi)}" width="${w}" height="${Math.max(1, Y(lo) - Y(hi))}" fill="#DBEAFE"/>` : '';
+    return `<svg class="spark" width="${w}" height="${hgt}" viewBox="0 0 ${w} ${hgt}" aria-hidden="true">${band}<polyline points="${pts.map(p => `${X(p[0])},${Y(p[1])}`).join(' ')}" fill="none" stroke="${color}" stroke-width="2" stroke-linejoin="round"/><circle cx="${X(pts[pts.length - 1][0])}" cy="${Y(pts[pts.length - 1][1])}" r="3" fill="${color}"/></svg>`;
+  }
+  function vSalute() {
+    const today = C.todayRome(); const days = [...Array(14)].map((_, i) => C.addDays(today, i - 13));
+    let h = header('Salute', 'Gli ultimi 14 giorni');
+    if (!S.health.length) return h + `<div class="card"><p style="margin:0">Ancora nessun dato. Usa <b>Registra → Incolla da Salute</b>.</p></div>` + saluteNext();
+    const resp = daily.respiro || {}; const last7 = days.slice(7).map(d => resp[d]).filter(v => v != null); const high = last7.filter(v => v > 20).length;
+    if (high >= 3) h += `<div class="warn"><b>Respiri notturni sopra 20 in ${high} delle ultime notti.</b> È il dato da portare al medico con la polisonnografia.</div>`;
+    const rows = [['sonno', '#312E81', 7, 9, v => v.toFixed(1) + ' h'], ['respiro', '#6D28D9', 12, 20, v => Math.round(v)], ['fc_riposo', '#C2410C', 50, 80, v => Math.round(v)], ['peso', '#15171C', null, null, v => v.toFixed(1) + ' kg'], ['passi', '#0F766E', null, null, v => Math.round(v).toLocaleString('it-IT')], ['pa_sis', '#9A3412', 90, 139, v => Math.round(v)], ['pa_dia', '#9A3412', 60, 89, v => Math.round(v)], ['energia', '#8A8F99', null, null, v => Math.round(v)]];
+    h += `<div class="card"><table><tr><th>Dato</th><th>Ultimo</th><th>Andamento</th><th>Affid.</th></tr>${rows.filter(([t]) => daily[t]).map(([t, c, lo, hi, f]) => { const vals = days.map(d => daily[t][d] ?? null); const lastD = Object.keys(daily[t]).sort().pop(); return `<tr><td><b>${C.H_TYPES[t].n}</b><br><span class="small mute">${C.H_TYPES[t].u}</span></td><td><b>${f(daily[t][lastD])}</b><br><span class="small mute">${lastD.slice(8)}/${lastD.slice(5, 7)}</span></td><td>${spark(vals, c, lo, hi)}</td><td><span class="pill" style="background:${C.H_TYPES[t].rel === 'indicativa' ? '#FFF0E8' : '#EEF3FF'}">${C.H_TYPES[t].rel}</span></td></tr>`; }).join('')}</table>
+      <p class="small mute" style="margin:8px 0 0">Fascia azzurra = zona di riferimento. Conta l'andamento di settimane, non il singolo giorno. Le calorie attive sono solo indicative.</p></div>`;
+    return h + saluteNext();
+  }
+  const saluteNext = () => `<div class="card"><div class="kick">In arrivo</div><div class="small" style="margin-top:6px">F2 Misure e semaforo · F3 Referti con confronti (già pronti gli esami del 16/09/2026 e la visita del 19/11/2026) e Prescrizioni</div></div>`;
+
+  // ---------- ALTRO ----------
+  function vAltro() {
+    const sub = S.sub || 'menu';
+    if (sub === 'backup') return vBackup();
+    if (sub === 'shortcut') return vShortcut();
+    if (sub === 'settings') return vSettings();
+    if (sub === 'diag') return vDiag();
+    let h = header('Altro', 'Strumenti');
+    const items = [['backup', 'Backup cifrato', 'esporta e ripristina i dati con la tua password'], ['shortcut', 'Comando rapido Salute', 'come crearlo sull\'iPhone, passo passo'], ['settings', 'Impostazioni', 'inizio rampa, obiettivi'], ['diag', 'Diagnostica', 'cosa c\'è nell\'archivio, avvisi, versione']];
+    h += items.map(([k, t, d]) => `<button class="card" data-act="sub" data-s="${k}" style="display:block;width:100%;text-align:left;border:0"><div style="font-weight:800;font-size:16px">${t}</div><div class="small mute">${d}</div></button>`).join('');
+    h += `<div class="card"><div class="kick">In arrivo</div><div class="small" style="margin-top:6px">Cibo (moduli, dispensa, spesa) · Palestra (carichi) · Sonno e respiro (timer 4-2-6) · Scadenze</div></div>`;
+    h += `<p class="small mute" style="text-align:center">Ritmo27 · ${C.VERSION} · i dati restano su questo dispositivo<br>Non sostituisce il medico: le soglie servono a orientarsi.</p>`;
+    return h;
+  }
+  const back = `<button class="btn sec" data-act="sub" data-s="menu">‹ Altro</button>`;
+  function vBackup() {
+    const last = S.set.lastBackup ? new Date(S.set.lastBackup).toLocaleString('it-IT') : 'mai';
+    return header('Altro', 'Backup cifrato', back) + `<div class="card"><p style="margin:0 0 10px">Ultimo backup: <b>${last}</b></p><p class="small mute" style="margin:0 0 10px">Il file è cifrato con la tua password. <b>Se la perdi, nessuno può aprirlo</b>, nemmeno io. Salvalo in File o in iCloud Drive.</p>
+      <label class="small mute">Password (almeno 8 caratteri)<input type="password" id="bkPass" autocomplete="new-password"></label>
+      <label class="small mute" style="display:block;margin-top:8px">Ripeti la password<input type="password" id="bkPass2" autocomplete="new-password"></label>
+      <button class="btn full or" data-act="backupExport" style="margin-top:12px">Esporta backup</button></div>
+      <div class="card"><h2>Ripristina</h2><p class="small mute" style="margin:6px 0 10px">Sostituisce <b>tutti</b> i dati di questo dispositivo con quelli del backup, dopo un'anteprima.</p><label class="btn full sec" style="display:flex;align-items:center;justify-content:center">Scegli il file di backup<input type="file" accept=".json,application/json" data-act="backupFile" hidden></label></div>
+      <div class="card small mute">Archivio persistente: <b>${S.persisted === true ? 'sì' : S.persisted === false ? 'no (il browser potrebbe svuotarlo: installa l\'app sulla Home e fai backup regolari)' : 'non verificabile'}</b></div>`;
+  }
+  function vShortcut() {
+    const step = (n, t, d) => `<div class="row" style="align-items:flex-start;margin-bottom:12px"><span class="chip" style="background:#15171C;color:#fff;min-width:34px;height:34px;font-size:14px">${n}</span><div style="font-size:14px"><b>${t}</b><div class="small mute">${d}</div></div></div>`;
+    return header('Altro', 'Comando rapido', back) + `<div class="card"><p class="small mute" style="margin:0 0 12px">Si crea una volta sola (circa 15 minuti). Poi basta un tocco: il comando copia i dati e tu li incolli in Registra.</p>
+      ${step(1, 'Apri Comandi Rapidi', 'tocca + e chiamalo "Ritmo27"')}
+      ${step(2, 'Aggiungi "Trova campioni di Salute"', 'Tipo: <b>Peso</b> · Data di inizio: negli ultimi 7 giorni')}
+      ${step(3, 'Aggiungi "Ripeti con ciascuno"', 'dentro metti un "Testo" così: <code>peso|[Data di inizio]|[Data di fine]|[Valore]|[Unità]</code>. Per le date scegli il formato <b>ISO 8601</b>.')}
+      ${step(4, 'Ripeti i passi 2–3 per gli altri dati', 'cambia la parola iniziale della riga: <code>fc_riposo</code> (Frequenza cardiaca a riposo), <code>respiro</code> (Frequenza respiratoria), <code>sonno</code> (Analisi del sonno: al posto di [Valore] metti il valore del campione, es. "Principale"), <code>pa_sis</code> e <code>pa_dia</code> (Pressione), <code>passi</code> (Passi, con <b>Raggruppa per giorno</b>)')}
+      ${step(5, 'Unisci e copia', 'aggiungi "Combina testo" (separatore: a capo) e "Copia negli appunti"')}
+      ${step(6, 'Usalo', 'lancia il comando, apri Ritmo27 → Registra → Incolla da Salute → Incolla appunti → Controlla')}
+      <div class="ok">L'app scarta da sola i doppioni e le fasi "a letto/sveglio" del sonno, e ti mostra sempre cosa ha scartato e perché.</div></div>`;
+  }
+  function vSettings() {
+    return header('Altro', 'Impostazioni', back) + `<div class="card col">
+      <label class="small mute">Inizio della rampa (settimana 1)<input type="date" id="stRamp" value="${S.set.rampStart || ''}"></label>
+      <div class="grid2"><label class="small mute">Prima tappa (kg)<input type="number" step="0.5" id="stT1" value="${S.set.target1}"></label><label class="small mute">Traguardo (kg)<input type="number" step="0.5" id="stT2" value="${S.set.target2}"></label></div>
+      <button class="btn or" data-act="saveSettings">Salva</button>
+      <p class="small mute" style="margin:0">L'inizio della rampa decide quando parte la palestra: nessuna seduta la prima settimana, una da 15' la seconda, poi 2 a settimana.</p></div>
+      <div class="card"><h2 style="color:#9A3412">Cancella tutto</h2><p class="small mute">Elimina tutti i dati da questo dispositivo. Fai prima un backup.</p><button class="btn sec" data-act="wipe" style="border-color:#9A3412;color:#9A3412">Cancella tutti i dati</button></div>`;
+  }
+  function vDiag() {
+    const sh = [...S.shifts.values()]; const by = {}; sh.forEach(s => by[s.type] = (by[s.type] || 0) + 1);
+    const dates = sh.map(s => s.date).sort();
+    const warns = S.imports.flatMap(i => i.warnings.map(w => `${new Date(i.at).toLocaleDateString('it-IT')}: ${w}`));
+    return header('Altro', 'Diagnostica', back) + `<div class="card"><table>
+      <tr><td>Versione</td><td><b>${C.VERSION}</b> · formato dati ${C.SCHEMA}</td></tr>
+      <tr><td>Fuso orario</td><td>${C.TZ} · ora attuale ${C.hhmm(C.nowMinRome())}</td></tr>
+      <tr><td>Turni</td><td>${sh.length} ${dates.length ? `(${dates[0]} → ${dates[dates.length - 1]})` : ''}<br><span class="small mute">${Object.entries(by).map(([t, n]) => `${t}: ${n}`).join(' · ')}</span></td></tr>
+      <tr><td>Modifiche manuali</td><td>${S.exc.size}</td></tr>
+      <tr><td>Sedute palestra pianificate</td><td>${Object.keys(gymMap).length}</td></tr>
+      <tr><td>Dati da Salute</td><td>${S.health.length}</td></tr>
+      <tr><td>Giorni con spunte</td><td>${S.logs.size}</td></tr>
+      <tr><td>Importazioni</td><td>${S.imports.length}</td></tr>
+      <tr><td>Archivio persistente</td><td>${S.persisted === true ? 'sì' : S.persisted === false ? 'no' : 'n/d'}</td></tr></table></div>
+      ${warns.length ? `<div class="card"><div class="kick">Avvisi delle importazioni</div>${warns.slice(0, 40).map(w => `<div class="small" style="margin-top:4px">• ${esc(w)}</div>`).join('')}</div>` : ''}`;
+  }
+
+  // ---------- backup ----------
+  async function exportBackup() {
+    const p1 = $('#bkPass').value, p2 = $('#bkPass2').value;
+    if (p1.length < 8) return toast('Password troppo corta (minimo 8)'); if (p1 !== p2) return toast('Le due password non coincidono');
+    toast('Cifratura in corso…');
+    const data = {}; for (const s of STORES) data[s] = await all(s);
+    const env = await C.encryptBackup({ app: 'Ritmo27', schema: C.SCHEMA, version: C.VERSION, exportedAt: new Date().toISOString(), data }, p1);
+    const name = `ritmo27-backup-${C.todayRome()}.json`;
+    const blob = new Blob([JSON.stringify(env)], { type: 'application/json' });
+    const file = new File([blob], name, { type: 'application/json' });
+    try {
+      if (navigator.canShare && navigator.canShare({ files: [file] })) await navigator.share({ files: [file], title: name });
+      else { const a = document.createElement('a'); a.href = URL.createObjectURL(blob); a.download = name; document.body.appendChild(a); a.click(); setTimeout(() => { URL.revokeObjectURL(a.href); a.remove(); }, 1000); }
+      await setSetting('lastBackup', Date.now()); render(); toast('Backup esportato');
+    } catch (e) { if (e.name !== 'AbortError') toast('Esportazione non riuscita: ' + e.message); }
+  }
+  async function readBackupFile(file) {
+    let env; try { env = JSON.parse(await file.text()); } catch (e) { return toast('Il file non è un backup leggibile'); }
+    modal(`<h2>Ripristina backup</h2><p class="small mute">${esc(file.name)}</p><label class="small mute">Password del backup<input type="password" id="rsPass"></label><div class="row" style="margin-top:12px"><button class="btn sec" data-act="close" style="flex:1">Annulla</button><button class="btn or" data-act="restoreCheck" style="flex:2">Apri</button></div><div id="rsRes"></div>`);
+    S._env = env;
+  }
+  async function restoreCheck() {
+    try {
+      const obj = await C.decryptBackup(S._env, $('#rsPass').value);
+      if (!obj.data || obj.app !== 'Ritmo27') throw new Error('Contenuto non valido');
+      if (obj.schema > C.SCHEMA) throw new Error(`Backup di una versione più recente (formato ${obj.schema}): aggiorna l'app`);
+      S._restore = obj;
+      $('#rsRes').innerHTML = `<div class="ok" style="margin-top:12px">Backup del <b>${new Date(obj.exportedAt).toLocaleString('it-IT')}</b> · ${obj.version}<br>${STORES.map(s => `${s}: ${(obj.data[s] || []).length}`).join(' · ')}</div><button class="btn full or" data-act="restoreDo">Sostituisci tutti i dati</button>`;
+    } catch (e) { $('#rsRes').innerHTML = `<div class="warn" style="margin-top:12px">${esc(e.message)}</div>`; }
+  }
+  async function restoreDo() {
+    const d = S._restore.data; await clearAll();
+    for (const s of STORES) if (d[s] && d[s].length) await bulk(s, d[s]);
+    await load(); closeModal(); render(); toast('Dati ripristinati');
+  }
+
+  // ---------- eventi ----------
+  document.addEventListener('click', async ev => {
+    const t = ev.target.closest('[data-act],[data-tab]'); if (!t) return;
+    if (t.dataset.tab) { S.tab = t.dataset.tab; S.sub = 'menu'; if (S.tab === 'oggi') S.date = S.date || C.todayRome(); return render(); }
+    const a = t.dataset.act;
+    if (a === 'closebg') { if (ev.target === t) closeModal(); return; }
+    if (a === 'close') return closeModal();
+    if (a === 'day') { S.date = C.addDays(S.date, +t.dataset.d); return render(); }
+    if (a === 'today') { S.date = C.todayRome(); return render(); }
+    if (a === 'month') { S.month = t.dataset.m; return render(); }
+    if (a === 'openDay') { S.date = t.dataset.ds; S.tab = 'oggi'; return render(); }
+    if (a === 'tick') { const k = t.dataset.k; const l = S.logs.get(S.date) || { date: S.date, done: {} }; if (l.done[k]) delete l.done[k]; else l.done[k] = Date.now(); S.logs.set(S.date, l); await put('daylogs', l); return render(); }
+    if (a === 'editDay') return editDayModal(S.date);
+    if (a === 'excPick') { S._excPick = t.dataset.k; document.querySelectorAll('#excSeg button').forEach(b => b.classList.toggle('on', b === t)); return; }
+    if (a === 'excSave') { const ds = t.dataset.ds, k = S._excPick, note = $('#excNote').value.trim(); if (k === 'none' && !note) await del('exceptions', ds); else await put('exceptions', { date: ds, kind: k === 'ferie' ? 'ferie' : k.startsWith('cambio') ? 'cambio' : 'nota', type: k.startsWith('cambio') ? k.split(':')[1] : null, note }); await load(); closeModal(); return render(); }
+    if (a === 'importConfirm') return confirmImport();
+    if (a === 'healthPaste') return healthModal();
+    if (a === 'pasteClip') { try { $('#hText').value = await navigator.clipboard.readText(); } catch (e) { toast('Incolla a mano: tieni premuto nel riquadro'); } return; }
+    if (a === 'healthCheck') return healthCheck();
+    if (a === 'healthSave') { await bulk('health', S._health); await load(); closeModal(); render(); return toast(`${S._health.length} dati salvati`); }
+    if (a === 'sub') { S.sub = t.dataset.s; return render(); }
+    if (a === 'goBackup') { S.tab = 'altro'; S.sub = 'backup'; return render(); }
+    if (a === 'backupExport') return exportBackup();
+    if (a === 'restoreCheck') return restoreCheck();
+    if (a === 'restoreDo') return restoreDo();
+    if (a === 'saveSettings') { await setSetting('rampStart', $('#stRamp').value || null); await setSetting('target1', +$('#stT1').value); await setSetting('target2', +$('#stT2').value); recompute(); toast('Salvato'); return render(); }
+    if (a === 'wipe') { if (confirm('Cancellare davvero tutti i dati da questo dispositivo?')) { await clearAll(); await load(); render(); toast('Dati cancellati'); } return; }
+  });
+  document.addEventListener('change', async ev => {
+    const t = ev.target; const a = t.dataset.act; if (!a || !t.files || !t.files[0]) return;
+    const f = t.files[0]; t.value = '';
+    if (a === 'icsfile') {
+      const text = await f.text(); const res = C.shiftsFromICS(text, f.name);
+      if (!res.shifts.length) return modal(`<h2>Questo file non contiene turni</h2><p class="small mute">${esc(f.name)} · ${res.events} eventi</p><div class="warn">Nessun evento dura tra 6 e 11 ore, quindi non ho salvato niente e i tuoi turni sono intatti. Sembrano promemoria o appuntamenti:${res.skipped.slice(0, 8).map(x => `<div class="small">• ${x.date} ${x.start} · ${x.dur} h · ${esc(x.summary)}</div>`).join('')}</div><p class="small mute">Per i turni usa il file ICS generato dal cartellone. I promemoria di salute avranno il loro posto in Scadenze (fase F6).</p><button class="btn full" data-act="close">Ho capito</button>`);
+      return showImportPreview(res, f.name, text);
+    }
+    if (a === 'backupFile') return readBackupFile(f);
+  });
+
+  // ---------- avvio ----------
+  (async () => {
+    try {
+      db = await openDB(); await load();
+      if (navigator.storage && navigator.storage.persist) { try { S.persisted = await navigator.storage.persisted() || await navigator.storage.persist(); } catch (e) { } }
+      if ('serviceWorker' in navigator && location.protocol === 'https:') navigator.serviceWorker.register('sw.js').catch(() => { });
+      render();
+      setInterval(() => { if (S.tab === 'oggi' && S.date === C.todayRome() && !document.querySelector('.modal')) render(); }, 5 * 60e3);
+    } catch (e) { document.getElementById('app').innerHTML = `<div class="warn"><b>Errore di avvio:</b> ${String(e && e.message || e)}</div>`; }
+  })();
+})();
+</script>
+</body>
+</html>
